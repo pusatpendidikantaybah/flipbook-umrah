@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Panduan Umrah</title>
+    <title>Buku Panduan Umrah (Slide)</title>
     
-    <!-- Panggil Font & CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -16,61 +15,100 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
         .container {
-            width: 800px;
+            width: 400px;
             height: 600px;
             background: white;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
+            text-align: center;
         }
-        #flipbook {
+        .slide {
             width: 100%;
             height: 100%;
-        }
-        .page {
-            width: 400px;
-            height: 600px;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
-            background: white;
-            border: 1px solid #ccc;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
-        .page img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
+        .slide img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .buttons {
+            margin-top: 15px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
         }
     </style>
-
-    <!-- Panggil jQuery & Turn.js dari CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://www.turnjs.com/lib/turn.min.js"></script>
 </head>
 <body>
 
     <div class="container">
-        <div id="flipbook">
-            <div class="page"><img src="image.png" alt="Halaman 1"></div>
-            <div class="page"><img src="image1.png" alt="Halaman 2"></div>
-            <div class="page"><img src="image.png" alt="Halaman 3"></div>
-            <div class="page"><img src="image1.png" alt="Halaman 4"></div>
+        <div class="slide" id="slide1">
+            <h2>Halaman 1</h2>
+            <img src="halaman1.jpg" alt="Halaman 1">
+        </div>
+        <div class="slide" id="slide2">
+            <h2>Halaman 2</h2>
+            <img src="halaman2.jpg" alt="Halaman 2">
+        </div>
+        <div class="slide" id="slide3">
+            <h2>Halaman 3</h2>
+            <img src="halaman3.jpg" alt="Halaman 3">
+        </div>
+        
+        <div class="buttons">
+            <button onclick="prevSlide()">Sebelumnya</button>
+            <button onclick="nextSlide()">Seterusnya</button>
         </div>
     </div>
 
-    <!-- Panggil Turn.js untuk fungsikan Flipbook -->
     <script>
-        $(document).ready(function() {
-            $("#flipbook").turn({
-                width: 800,
-                height: 600,
-                autoCenter: true
-            });
-        });
+        let currentSlide = 1;
+        const totalSlides = 3;
+
+        function showSlide(n) {
+            let slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.style.display = "none"); // Sembunyikan semua
+            slides.forEach(slide => slide.style.opacity = "0"); // Reset opacity
+            
+            document.getElementById(`slide${n}`).style.display = "flex"; 
+            setTimeout(() => {
+                document.getElementById(`slide${n}`).style.opacity = "1";
+            }, 50);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide % totalSlides) + 1;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 2 + totalSlides) % totalSlides + 1;
+            showSlide(currentSlide);
+        }
+
+        showSlide(currentSlide);
     </script>
 
 </body>
-</html>
 
